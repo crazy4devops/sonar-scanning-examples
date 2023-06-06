@@ -17,13 +17,13 @@ pipeline {
                 }
             }
         }
-        // stage("Run Unit-Tests"){
-        //     steps {
-        //         dir('sonarqube-scanner-maven/maven-basic') {
-        //             sh "mvn test"
-        //         }
-        //     }
-        // }
+        stage("Run Unit-Tests"){
+            steps {
+                dir('sonarqube-scanner-maven/maven-basic') {
+                    sh "mvn test"
+                }
+            }
+        }
         // stage('Sonarqube Analysis') {
         //     environment {
         //       def scannerHome = tool 'SonarQubeScanner'
