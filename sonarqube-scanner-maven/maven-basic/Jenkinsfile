@@ -1,11 +1,11 @@
 pipeline {
     agent any
     stages{
-        stage("printEnv"){
-            steps {
-                sh "printenv"
-            }
-        }
+        // stage("printEnv"){
+        //     steps {
+        //         sh "printenv"
+        //     }
+        // }
         stage("Build Source Code"){
             steps {
 
@@ -24,26 +24,18 @@ pipeline {
                 }
             }
         }
-        // stage('Sonarqube Analysis') {
-        //     environment {
-        //       def scannerHome = tool 'SonarQubeScanner'
-        //     }
-        //     steps {  
-        //         withSonarQubeEnv('sonarserver') {
-        //             dir('sonarqube-scanner-maven/maven-basic') {
-        //                 sh "/opt/sonar/bin/sonar-scanner"
-        //                 //sh "${scannerHome}/bin/sonar-scanner"
-        //             }
-        //         }
-        //         sleep time: 30000, unit: 'MILLISECONDS'
-        //         script {
-        //                 def qg = waitForQualityGate()
-        //                 if (qg.status != 'OK') {
-        //                     error "Pipeline aborted due to quality gate failure: ${qg.status}"
-        //                 }
-        //         }
-        //     }
-        // }
+        stage('Sonarqube Analysis') {
+            environment {
+              def scannerHome = tool 'sonar4.8'
+            }
+            steps {  
+                withSonarQubeEnv('venkat-sonarqube-server') {
+                    dir('sonarqube-scanner-maven/maven-basic') {
+                        sh "${scannerHome}/bin/sonar-scanner"
+                    }
+                }
+            }
+        }
 
         // stage("Upload Artifacts"){
         //     steps{
