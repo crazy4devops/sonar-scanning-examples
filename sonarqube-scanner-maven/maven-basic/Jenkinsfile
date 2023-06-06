@@ -4,6 +4,7 @@ pipeline {
         stage("printEnv"){
             steps {
                 sh "printenv"
+                cleanWs()
             }
         }
         stage("Build Source Code"){
