@@ -6,15 +6,17 @@ pipeline {
                 sh "printenv"
             }
         }
-        // stage("Build Source Code"){
-        //     steps {
+        stage("Build Source Code"){
+            steps {
 
-        //         dir('sonarqube-scanner-maven/maven-basic') {
-        //             sh "mvn install"
-        //             sh "mv target/*.jar target/sonarscanner-maven-basic-1.0-SNAPSHOT-${BUILD_NUMBER}.jar"
-        //         }
-        //     }
-        // }
+                dir('sonarqube-scanner-maven/maven-basic') {
+                    sh "mvn install"
+                    sh "ls -lrt target/"
+                    sh "mv target/*.jar target/sonarscanner-maven-basic-1.0-SNAPSHOT-${BUILD_NUMBER}.jar"
+                    sh "ls -lrt target/"
+                }
+            }
+        }
         // stage("Run Unit-Tests"){
         //     steps {
         //         dir('sonarqube-scanner-maven/maven-basic') {
@@ -42,6 +44,7 @@ pipeline {
         //         }
         //     }
         // }
+
         // stage("Upload Artifacts"){
         //     steps{
         //         dir('sonarqube-scanner-maven/maven-basic'){
