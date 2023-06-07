@@ -1,11 +1,7 @@
 pipeline {
     agent any
     stages{
-        // stage("printEnv"){
-        //     steps {
-        //         sh "printenv"
-        //     }
-        // }
+        
         stage("Build Source Code"){
             steps {
 
@@ -15,11 +11,29 @@ pipeline {
                     sh "mv target/*.jar target/sonarscanner-maven-basic-1.0-SNAPSHOT-${BUILD_NUMBER}.jar"
                     sh "ls -lrt target/"
                 }
+                dir('sonarqube-scanner-maven/maven-multilingual') {
+                    sh "mvn install"
+                    sh "ls -lrt target/"
+                    sh "mv target/*.jar target/sonarscannermaven-multilingual-1.0-SNAPSHOT-${BUILD_NUMBER}.jar"
+                    sh "ls -lrt target/"
+                }
+                dir('sonarqube-scanner-maven/maven-multimodule') {
+                    sh "mvn install"
+                    sh "ls -lrt target/"
+                    sh "mv target/*.jar target/sonarscanner-maven-multimodule-1.0-SNAPSHOT-${BUILD_NUMBER}.jar"
+                    sh "ls -lrt target/"
+                }
             }
         }
         stage("Run Unit-Tests"){
             steps {
                 dir('sonarqube-scanner-maven/maven-basic') {
+                    sh "mvn test"
+                }
+                dir('sonarqube-scanner-maven/maven-multilingual') {
+                    sh "mvn test"
+                }
+                dir('sonarqube-scanner-maven/maven-multimodule') {
                     sh "mvn test"
                 }
             }
@@ -31,6 +45,12 @@ pipeline {
             steps {  
                 withSonarQubeEnv('venkat-sonarqube-server') {
                     dir('sonarqube-scanner-maven/maven-basic') {
+                        sh "${scannerHome}/bin/sonar-scanner"
+                    }
+                    dir('sonarqube-scanner-maven/maven-multilingual') {
+                        sh "${scannerHome}/bin/sonar-scanner"
+                    }
+                    dir('sonarqube-scanner-maven/maven-multimodule') {
                         sh "${scannerHome}/bin/sonar-scanner"
                     }
                 }
