@@ -19,9 +19,9 @@ pipeline {
                 }
                 dir('sonarqube-scanner-maven/maven-multimodule') {
                     sh "mvn install"
-                    sh "ls -lrt target/"
-                    sh "mv target/*.jar target/sonarscanner-maven-multimodule-1.0-SNAPSHOT-${BUILD_NUMBER}.jar"
-                    sh "ls -lrt target/"
+                    sh "ls -lrt tests/target/"
+                    sh "mv tests/target/*.jar tests/target/sonarscanner-maven-multimodule-1.0-SNAPSHOT-${BUILD_NUMBER}.jar"
+                    sh "ls -lrt tests/target/"
                 }
             }
         }
